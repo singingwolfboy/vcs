@@ -186,7 +186,7 @@ class MercurialRepository(BaseRepository):
         try:
             self._repo.tag(name, changeset._ctx.node(), message, local, user,
                 date)
-        except Abort, e:
+        except Abort as e:
             raise RepositoryError(e.message)
 
         # Reinitialize tags
@@ -217,7 +217,7 @@ class MercurialRepository(BaseRepository):
         try:
             self._repo.tag(name, nullid, message, local, user, date)
             self.tags = self._get_tags()
-        except Abort, e:
+        except Abort as e:
             raise RepositoryError(e.message)
 
     @LazyProperty
@@ -319,7 +319,7 @@ class MercurialRepository(BaseRepository):
         try:
             resp = o.open(req)
             return resp.code == 200
-        except Exception, e:
+        except Exception as e:
             # means it cannot be cloned
             raise urllib2.URLError("[%s] %s" % (url, e))
 
@@ -351,7 +351,7 @@ class MercurialRepository(BaseRepository):
                 # Don't try to create if we've already cloned repo
                 create = False
             return localrepository(self.baseui, self.path, create=create)
-        except (Abort, RepoError), err:
+        except (Abort, RepoError) as err:
             if create:
                 msg = "Cannot create repository at %s. Original error was %s"\
                     % (self.path, err)
@@ -510,7 +510,7 @@ class MercurialRepository(BaseRepository):
         url = self._get_url(url)
         try:
             pull(self.baseui, self._repo, url)
-        except Abort, err:
+        except Abort as err:
             # Propagate error but with vcs's type
             raise RepositoryError(str(err))
 

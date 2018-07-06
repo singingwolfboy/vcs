@@ -140,7 +140,7 @@ class ExecutionManager(object):
         """
         try:
             Command = self.get_command_class(cmd)
-        except CommandError, e:
+        except CommandError as e:
             self.stderr.write(str(e) + '\n')
             self.show_help()
             sys.exit(-1)
@@ -242,7 +242,7 @@ class BaseCommand(object):
         """
         try:
             self.handle(*args, **options)
-        except CommandError, e:
+        except CommandError as e:
             if options['debug']:
                 try:
                     import ipdb
@@ -253,7 +253,7 @@ class BaseCommand(object):
             sys.stderr.write(colorize('ERROR: ', fg='red'))
             self.stderr.write('%s\n' % e)
             sys.exit(1)
-        except Exception, e:
+        except Exception as e:
             if isinstance(e, IOError) and getattr(e, 'errno') == errno.EPIPE:
                 sys.exit(0)
             if options['debug']:
