@@ -11,7 +11,6 @@ import sys
 import subprocess
 import vcs
 import vcs.cli
-from contextlib import nested
 from StringIO import StringIO
 from vcs.cli import BaseCommand
 from vcs.cli import ExecutionManager
@@ -53,8 +52,9 @@ class TestExecutionManager(unittest.TestCase):
             self.assertEqual(manager.stderr, stream)
 
     def test_get_vcsrc(self):
-        with nested(mock.patch('vcs.conf.settings.VCSRC_PATH', 'foobar'),
-            mock.patch('vcs.cli.create_module')) as (VP, m):
+        VP_ctx = mock.patch('vcs.conf.settings.VCSRC_PATH', 'foobar')
+        m_ctx = mock.patch('vcs.cli.create_module') 
+        with VP_ctx as VP, m_ctx as m:
             # Use not-dummy manager here as we need to test get_vcsrc behavior
             m.return_value = mock.Mock()
             manager = ExecutionManager()
