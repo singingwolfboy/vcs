@@ -120,7 +120,7 @@ class GitRepository(BaseRepository):
             )
             _opts.update(opts)
             p = subprocessio.SubprocessIOChunker(cmd, **_opts)
-        except (EnvironmentError, OSError), err:
+        except (EnvironmentError, OSError) as err:
             tb_err = ("Couldn't run git command (%s).\n"
                       "Original error was:%s\n" % (cmd, err))
             if safe_call:
@@ -177,7 +177,7 @@ class GitRepository(BaseRepository):
         try:
             resp = o.open(req)
             return resp.code == 200
-        except Exception, e:
+        except Exception as e:
             # means it cannot be cloned
             raise urllib2.URLError("[%s] %s" % (url, e))
 
@@ -201,7 +201,7 @@ class GitRepository(BaseRepository):
                     return Repo.init(self.path)
             else:
                 return self._repo
-        except (NotGitRepository, OSError), err:
+        except (NotGitRepository, OSError) as err:
             raise RepositoryError(err)
 
     def _get_all_revisions(self):
@@ -401,7 +401,7 @@ class GitRepository(BaseRepository):
             os.remove(tagpath)
             self._parsed_refs = self._get_parsed_refs()
             self.tags = self._get_tags()
-        except OSError, e:
+        except OSError as e:
             raise RepositoryError(e.strerror)
 
     @LazyProperty
