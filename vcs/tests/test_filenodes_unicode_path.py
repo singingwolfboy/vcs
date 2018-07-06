@@ -9,8 +9,8 @@ from vcs.tests.conf import SCM_TESTS
 
 class FileNodeUnicodePathTestsMixin(object):
 
-    fname = 'ąśðąęłąć.txt'
-    ufname = (fname).decode('utf-8')
+    ufname = u'ąśðąęłąć.txt'
+    fname = ufname.encode('utf-8')
 
     def get_commits(self):
         self.nodes = [
