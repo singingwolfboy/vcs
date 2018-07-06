@@ -1,5 +1,6 @@
 import datetime
 import errno
+import six
 
 from vcs.backends.base import BaseInMemoryChangeset
 from vcs.exceptions import RepositoryError
@@ -30,7 +31,7 @@ class MercurialInMemoryChangeset(BaseInMemoryChangeset):
         self.check_integrity(parents)
 
         from .repository import MercurialRepository
-        if not isinstance(message, unicode) or not isinstance(author, unicode):
+        if not isinstance(message, six.text_type) or not isinstance(author, six.text_type):
             raise RepositoryError('Given message and author needs to be '
                                   'an <unicode> instance got %r & %r instead'
                                   % (type(message), type(author)))
@@ -53,7 +54,10 @@ class MercurialInMemoryChangeset(BaseInMemoryChangeset):
             # check if this path is added
             for node in self.added:
                 if node.path == path:
-                    return memfilectx(path=node.path,
+                    return memfilectx(
+                        repo=_repo,
+                        changectx=memctx,
+                        path=node.path,
                         data=(node.content.encode('utf8')
                               if not node.is_binary else node.content),
                         islink=False,
@@ -63,7 +67,10 @@ class MercurialInMemoryChangeset(BaseInMemoryChangeset):
             # or changed
             for node in self.changed:
                 if node.path == path:
-                    return memfilectx(path=node.path,
+                    return memfilectx(
+                        repo=_repo,
+                        changectx=memctx,
+                        path=node.path,
                         data=(node.content.encode('utf8')
                               if not node.is_binary else node.content),
                         islink=False,
