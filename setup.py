@@ -15,9 +15,9 @@ except IOError as err:
 
 install_requires = ['Pygments', 'six']
 
-tests_require = install_requires + ['dulwich', 'mercurial', 'mock']
-
-
+tests_require = install_requires + ['dulwich']
+if sys.version_info[0] == 2:  # Python 2
+    tests_require += ['mercurial', 'mock']
 
 setup(
     name='vcs',

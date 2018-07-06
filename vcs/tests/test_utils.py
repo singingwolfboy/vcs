@@ -1,11 +1,15 @@
 from __future__ import with_statement
 
 import os
-import mock
 import time
 import shutil
 import tempfile
 import datetime
+try:
+    import mock
+except ImportError:
+    from unittest import mock
+
 from vcs.utils.compat import unittest
 from vcs.utils.paths import get_dirs_for_path
 from vcs.utils.helpers import get_dict_for_attrs
