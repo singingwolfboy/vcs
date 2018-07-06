@@ -3,7 +3,10 @@ from __future__ import with_statement
 import datetime
 import logging
 
-import mock
+try:
+    import mock
+except ImportError:
+    from unittest import mock
 import sys
 import subprocess
 import vcs

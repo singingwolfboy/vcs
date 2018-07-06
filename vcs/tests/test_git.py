@@ -1,8 +1,11 @@
 from __future__ import with_statement
 
 import os
-import mock
 import datetime
+try:
+    import mock
+except ImportError:
+    from unittest import mock
 from vcs.backends.git import GitRepository, GitChangeset
 from vcs.exceptions import RepositoryError, VCSError, NodeDoesNotExistError
 from vcs.nodes import NodeKind, FileNode, DirNode, NodeState
