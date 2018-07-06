@@ -1,6 +1,6 @@
 import sys
 import datetime
-from StringIO import StringIO
+import six
 from vcs.utils.helpers import get_total_seconds
 from vcs.utils.progressbar import AlreadyFinishedError
 from vcs.utils.progressbar import ProgressBar
@@ -58,15 +58,15 @@ class TestProgressBar(unittest.TestCase):
         self.assertEquals(len(bar.get_bar()), 30)
 
     def test_write(self):
-        stream = StringIO()
+        stream = six.StringIO()
         bar = ProgressBar()
         bar.stream = stream
         bar.write('foobar')
         self.assertEquals(stream.getvalue(), 'foobar')
 
     def test_change_stream(self):
-        stream1 = StringIO()
-        stream2 = StringIO()
+        stream1 = six.StringIO()
+        stream2 = six.StringIO()
         bar = ProgressBar()
         bar.stream = stream1
         bar.write('foo')
@@ -76,7 +76,7 @@ class TestProgressBar(unittest.TestCase):
 
     def test_render_writes_new_line_at_last_step(self):
         bar = ProgressBar()
-        bar.stream = StringIO()
+        bar.stream = six.StringIO()
         bar.steps = 5
         bar.render(5)
         self.assertEquals(bar.stream.getvalue()[-1], '\n')
@@ -87,7 +87,7 @@ class TestProgressBar(unittest.TestCase):
 
     def test_iter_starts_from_current_step(self):
         bar = ProgressBar()
-        bar.stream = StringIO()
+        bar.stream = six.StringIO()
         bar.steps = 20
         bar.step = 5
         stepped = list(bar)
@@ -95,7 +95,7 @@ class TestProgressBar(unittest.TestCase):
 
     def test_iter_ends_at_last_step(self):
         bar = ProgressBar()
-        bar.stream = StringIO()
+        bar.stream = six.StringIO()
         bar.steps = 20
         bar.step = 5
         stepped = list(bar)
@@ -118,7 +118,7 @@ class TestProgressBar(unittest.TestCase):
 
     def test_get_eta(self):
         bar = ProgressBar(100)
-        bar.stream = StringIO()
+        bar.stream = six.StringIO()
 
         bar.render(50)
         now = datetime.datetime.now()
@@ -231,7 +231,7 @@ class TestProgressBar(unittest.TestCase):
 
     def test_render_raises_error_if_bar_already_finished(self):
         bar = ProgressBar(10)
-        bar.stream = StringIO()
+        bar.stream = six.StringIO()
         bar.render(10)
 
         with self.assertRaises(AlreadyFinishedError):

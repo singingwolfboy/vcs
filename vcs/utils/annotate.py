@@ -1,4 +1,4 @@
-import StringIO
+import six
 
 from pygments.formatters import HtmlFormatter
 from pygments import highlight
@@ -82,7 +82,7 @@ class AnnotateHtmlFormatter(HtmlFormatter):
             return ''.join((changeset.id, '\n'))
 
     def _wrap_tablelinenos(self, inner):
-        dummyoutfile = StringIO.StringIO()
+        dummyoutfile = six.BytesIO()
         lncount = 0
         for t, line in inner:
             if t:

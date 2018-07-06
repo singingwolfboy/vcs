@@ -7,9 +7,9 @@ except ImportError:
     from unittest import mock
 import sys
 import subprocess
+import six
 import vcs
 import vcs.cli
-from StringIO import StringIO
 from vcs.cli import BaseCommand
 from vcs.cli import ExecutionManager
 from vcs.cli import make_option
@@ -38,13 +38,13 @@ class TestExecutionManager(unittest.TestCase):
             self.assertEqual(manager.prog_name, 'vcs')
 
     def test_default_stdout(self):
-        stream = StringIO()
+        stream = six.BytesIO()
         with mock.patch.object(sys, 'stdout', stream):
             manager = DummyExecutionManager()
             self.assertEqual(manager.stdout, stream)
 
     def test_default_stderr(self):
-        stream = StringIO()
+        stream = six.BytesIO()
         with mock.patch.object(sys, 'stderr', stream):
             manager = DummyExecutionManager()
             self.assertEqual(manager.stderr, stream)
@@ -83,8 +83,8 @@ class TestExecutionManager(unittest.TestCase):
             })
 
     def test_run_command(self):
-        manager = DummyExecutionManager(stdout=StringIO(),
-            stderr=StringIO())
+        manager = DummyExecutionManager(stdout=six.BytesIO(),
+            stderr=six.BytesIO())
 
         class Command(BaseCommand):
 
@@ -113,7 +113,7 @@ class TestExecutionManager(unittest.TestCase):
         manager.show_help.assert_called_once_with()
 
     def test_show_help_writes_to_stdout(self):
-        manager = DummyExecutionManager(stdout=StringIO(), stderr=StringIO())
+        manager = DummyExecutionManager(stdout=six.BytesIO(), stderr=six.BytesIO())
         manager.show_help()
         self.assertGreater(len(manager.stdout.getvalue()), 0)
 
@@ -121,14 +121,14 @@ class TestExecutionManager(unittest.TestCase):
 class TestBaseCommand(unittest.TestCase):
 
     def test_default_stdout(self):
-        stream = StringIO()
+        stream = six.BytesIO()
         with mock.patch.object(sys, 'stdout', stream):
             command = BaseCommand()
             command.stdout.write(u'foobar')
             self.assertEqual(sys.stdout.getvalue(), u'foobar')
 
     def test_default_stderr(self):
-        stream = StringIO()
+        stream = six.BytesIO()
         with mock.patch.object(sys, 'stderr', stream):
             command = BaseCommand()
             command.stderr.write(u'foobar')

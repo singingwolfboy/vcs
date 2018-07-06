@@ -3,7 +3,7 @@ import tarfile
 import zipfile
 import datetime
 import tempfile
-import StringIO
+import six
 from vcs.tests.base import BackendTestMixin
 from vcs.tests.conf import SCM_TESTS
 from vcs.exceptions import VCSError
@@ -35,7 +35,7 @@ class ArchivesTestCaseMixin(BackendTestMixin):
 
         for x in xrange(5):
             node_path = '%d/file_%d.txt' % (x, x)
-            decompressed = StringIO.StringIO()
+            decompressed = six.StringIO()
             decompressed.write(out.read('repo/' + node_path))
             self.assertEqual(
                 decompressed.getvalue(),
@@ -75,7 +75,7 @@ class ArchivesTestCaseMixin(BackendTestMixin):
         tmppath = tempfile.mkstemp()[1]
         with open(tmppath, 'w') as stream:
             self.tip.fill_archive(stream=stream)
-        mystream = StringIO.StringIO()
+        mystream = six.BytesIO()
         self.tip.fill_archive(stream=mystream)
         mystream.seek(0)
         with open(tmppath, 'r') as f:
