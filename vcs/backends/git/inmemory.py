@@ -37,7 +37,7 @@ class GitInMemoryChangeset(BaseInMemoryChangeset):
         object_store = repo.object_store
 
         ENCODING = "UTF-8"
-        DIRMOD = 040000
+        DIRMOD = 0o40000
 
         # Create tree and populates it with blobs
         commit_tree = self.parents[0] and repo[self.parents[0]._commit.tree] or\
@@ -191,7 +191,7 @@ class GitInMemoryChangeset(BaseInMemoryChangeset):
             tree = get_tree_for_dir(parent, dirname)
             if tree is None:
                 tree = objects.Tree()
-                dirmode = 040000
+                dirmode = 0o40000
                 parent.add(dirmode, dirname, tree.id)
                 parent = tree
             # Always append tree

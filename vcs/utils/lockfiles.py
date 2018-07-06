@@ -64,7 +64,7 @@ class LockFile(object):
             # on bloody windows, the file needs write permissions to be removable.
             # Why ...
             if os.name == 'nt':
-                os.chmod(lfp, 0777)
+                os.chmod(lfp, 0o777)
             # END handle win32
             os.remove(lfp)
         except OSError:

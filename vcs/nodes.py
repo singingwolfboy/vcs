@@ -232,7 +232,7 @@ class FileNode(Node):
     :attribute: path: path to the node, relative to repostiory's root
     :attribute: content: if given arbitrary sets content of the file
     :attribute: changeset: if given, first time content is accessed, callback
-    :attribute: mode: octal stat mode for a node. Default is 0100644.
+    :attribute: mode: octal stat mode for a node. Default is 0o100644.
     """
 
     def __init__(self, path, content=None, changeset=None, mode=None):
@@ -243,7 +243,7 @@ class FileNode(Node):
         :param path: relative path to the node
         :param content: content may be passed to constructor
         :param changeset: if given, will use it to lazily fetch content
-        :param mode: octal representation of ST_MODE (i.e. 0100644)
+        :param mode: octal representation of ST_MODE (i.e. 0o100644)
         """
 
         if content and changeset:
@@ -257,7 +257,7 @@ class FileNode(Node):
     def mode(self):
         """
         Returns lazily mode of the FileNode. If ``changeset`` is not set, would
-        use value given at initialization or 0100644 (default).
+        use value given at initialization or 0o100644 (default).
         """
         if self.changeset:
             mode = self.changeset.get_file_mode(self.path)
