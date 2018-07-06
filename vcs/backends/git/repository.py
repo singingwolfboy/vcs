@@ -6,6 +6,7 @@ import urllib
 import urllib2
 import posixpath
 import string
+import six
 
 from dulwich.objects import Tag
 from dulwich.repo import Repo, NotGitRepository
@@ -98,7 +99,7 @@ class GitRepository(BaseRepository):
             safe_call = True
 
         _str_cmd = False
-        if isinstance(cmd, basestring):
+        if isinstance(cmd, six.string_types):
             cmd = [cmd]
             _str_cmd = True
 
@@ -644,7 +645,7 @@ class GitRepository(BaseRepository):
         """
         if config_file is None:
             config_file = []
-        elif isinstance(config_file, basestring):
+        elif isinstance(config_file, six.string_types):
             config_file = [config_file]
 
         def gen_configs():

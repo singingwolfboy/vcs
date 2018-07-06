@@ -5,6 +5,7 @@ import re
 import difflib
 import logging
 import itertools
+import six
 
 from difflib import unified_diff
 
@@ -81,7 +82,7 @@ class DiffProcessor(object):
         :param diff:   a text in diff format or generator
         :param format: format of diff passed, `udiff` or `gitdiff`
         """
-        if isinstance(diff, basestring):
+        if isinstance(diff, six.string_types):
             diff = [diff]
 
         self.__udiff = diff
@@ -89,7 +90,7 @@ class DiffProcessor(object):
         self.adds = 0
         self.removes = 0
 
-        if isinstance(self.__udiff, basestring):
+        if isinstance(self.__udiff, six.string_types):
             self.lines = iter(self.__udiff.splitlines(1))
 
         elif self.__format == 'gitdiff':

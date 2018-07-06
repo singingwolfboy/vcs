@@ -14,7 +14,7 @@ import time
 import urllib
 import urllib2
 import datetime
-
+import six
 
 from vcs.backends.base import BaseRepository, CollectionGenerator
 
@@ -532,7 +532,7 @@ class MercurialRepository(BaseRepository):
         """
         if config_file is None:
             config_file = []
-        elif isinstance(config_file, basestring):
+        elif isinstance(config_file, six.string_types):
             config_file = [config_file]
 
         config = self._repo.ui

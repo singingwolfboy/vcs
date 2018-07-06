@@ -13,7 +13,7 @@ except IOError as err:
         "long_description (%s)\n" % readme_file)
     sys.exit(1)
 
-install_requires = ['Pygments']
+install_requires = ['Pygments', 'six']
 
 tests_require = install_requires + ['dulwich', 'mercurial', 'mock']
 

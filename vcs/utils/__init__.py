@@ -5,7 +5,7 @@ output. It also includes some internal helpers.
 import sys
 import time
 import datetime
-
+import six
 
 def makedate():
     lt = time.localtime()
@@ -24,7 +24,7 @@ def aslist(obj, sep=None, strip=True):
     :param sep:
     :param strip:
     """
-    if isinstance(obj, (basestring)):
+    if isinstance(obj, (six.string_types)):
         lst = obj.split(sep)
         if strip:
             lst = [v.strip() for v in lst]
@@ -76,7 +76,7 @@ def safe_unicode(str_, from_encoding=None):
     :rtype: unicode
     :returns: unicode object
     """
-    if isinstance(str_, unicode):
+    if isinstance(str_, six.text_type):
         return str_
 
     if not from_encoding:
@@ -87,13 +87,13 @@ def safe_unicode(str_, from_encoding=None):
         from_encoding = [from_encoding]
 
     try:
-        return unicode(str_)
+        return six.text_type(str_)
     except UnicodeDecodeError:
         pass
 
     for enc in from_encoding:
         try:
-            return unicode(str_, enc)
+            return six.text_type(str_, enc)
         except UnicodeDecodeError:
             pass
 
@@ -104,7 +104,7 @@ def safe_unicode(str_, from_encoding=None):
             raise Exception()
         return str_.decode(encoding)
     except (ImportError, UnicodeDecodeError, Exception):
-        return unicode(str_, from_encoding[0], 'replace')
+        return six.text_type(str_, from_encoding[0], 'replace')
 
 
 def safe_str(unicode_, to_encoding=None):
@@ -120,10 +120,10 @@ def safe_str(unicode_, to_encoding=None):
     """
 
     # if it's not basestr cast to str
-    if not isinstance(unicode_, basestring):
+    if not isinstance(unicode_, six.string_types):
         return str(unicode_)
 
-    if isinstance(unicode_, str):
+    if isinstance(unicode_, six.binary_type):
         return unicode_
 
     if not to_encoding:

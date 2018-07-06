@@ -30,6 +30,7 @@ TODO:
 import errno
 import os
 import re
+import six
 
 from dulwich.file import GitFile
 
@@ -102,7 +103,7 @@ class ConfigDict(Config):
             return (parts[0], None, parts[1])
 
     def get(self, section, name):
-        if isinstance(section, basestring):
+        if isinstance(section, six.string_types):
             section = (section, )
         if len(section) > 1:
             try:
@@ -112,7 +113,7 @@ class ConfigDict(Config):
         return self._values[(section[0],)][name]
 
     def set(self, section, name, value):
-        if isinstance(section, basestring):
+        if isinstance(section, six.string_types):
             section = (section, )
         self._values.setdefault(section, {})[name] = value
 

@@ -11,6 +11,7 @@ import sys
 import vcs
 import copy
 import errno
+import six
 from optparse import OptionParser
 from optparse import make_option
 from vcs.conf import settings
@@ -115,7 +116,7 @@ class ExecutionManager(object):
             cmdpath = self.registry[cmd]
         except KeyError:
             raise CommandError("No such command %r" % cmd)
-        if isinstance(cmdpath, basestring):
+        if isinstance(cmdpath, six.string_types):
             Command = import_class(cmdpath)
         else:
             Command = cmdpath
