@@ -7,7 +7,7 @@ import hashlib
 import tempfile
 import datetime
 import shutil
-from utils import get_normalized_path
+from .utils import get_normalized_path
 from os.path import join as jn
 
 __all__ = (
