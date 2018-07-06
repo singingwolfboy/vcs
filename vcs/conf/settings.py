@@ -1,5 +1,6 @@
 import os
 import tempfile
+import six
 from vcs.utils import aslist
 from vcs.utils.paths import get_user_home
 
@@ -25,9 +26,11 @@ GIT_EXECUTABLE_PATH = 'git'
 GIT_REV_FILTER = '--all'
 
 BACKENDS = {
-    'hg': 'vcs.backends.hg.MercurialRepository',
     'git': 'vcs.backends.git.GitRepository',
 }
+
+if six.PY2:
+    BACKENDS['hg'] = 'vcs.backends.hg.MercurialRepository'
 
 ARCHIVE_SPECS = {
     'tar': ('application/x-tar', '.tar'),
