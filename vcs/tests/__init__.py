@@ -25,24 +25,24 @@ from vcs.tests.utils import VCSTestError, SCMFetcher
 
 # Import Test Cases
 from vcs.tests.base import *
-from test_branches import *
-from test_changesets import *
-from test_cli import *
-from test_diffs import *
-from test_filenodes_unicode_path import *
-from test_getitem import *
-from test_getslice import *
-from test_git import *
-from test_hg import *
-from test_inmemchangesets import *
-from test_nodes import *
-from test_repository import *
-from test_tags import *
-from test_utils import *
-from test_utils_filesize import *
-from test_utils_progressbar import *
-from test_vcs import *
-from test_workdirs import *
+from .test_branches import *
+from .test_changesets import *
+from .test_cli import *
+from .test_diffs import *
+from .test_filenodes_unicode_path import *
+from .test_getitem import *
+from .test_getslice import *
+from .test_git import *
+from .test_hg import *
+from .test_inmemchangesets import *
+from .test_nodes import *
+from .test_repository import *
+from .test_tags import *
+from .test_utils import *
+from .test_utils_filesize import *
+from .test_utils_progressbar import *
+from .test_vcs import *
+from .test_workdirs import *
 
 
 def setup_package():
