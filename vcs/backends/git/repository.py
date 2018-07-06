@@ -7,6 +7,7 @@ import urllib2
 import posixpath
 import string
 import six
+from collections import OrderedDict
 
 from dulwich.objects import Tag
 from dulwich.repo import Repo, NotGitRepository
@@ -21,7 +22,6 @@ from vcs.exceptions import (
 )
 from vcs.utils import safe_unicode, makedate, date_fromtimestamp
 from vcs.utils.lazy import LazyProperty
-from vcs.utils.ordered_dict import OrderedDict
 from vcs.utils.paths import abspath, get_user_home
 
 from vcs.utils.hgcompat import (

@@ -12,6 +12,7 @@ import vcs
 import copy
 import errno
 import six
+from collections import OrderedDict
 from optparse import OptionParser
 from optparse import make_option
 from vcs.conf import settings
@@ -22,7 +23,6 @@ from vcs.utils.helpers import get_scm
 from vcs.utils.helpers import parse_changesets
 from vcs.utils.helpers import parse_datetime
 from vcs.utils.imports import import_class
-from vcs.utils.ordered_dict import OrderedDict
 from vcs.utils.paths import abspath
 from vcs.utils.progressbar import ColoredProgressBar
 from vcs.utils.termcolors import colorize

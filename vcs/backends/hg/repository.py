@@ -14,6 +14,7 @@ import time
 import urllib
 import urllib2
 import datetime
+from collections import OrderedDict
 import six
 
 from vcs.backends.base import BaseRepository, CollectionGenerator
@@ -26,7 +27,6 @@ from vcs.utils import (
     author_email, author_name, date_fromtimestamp, makedate, safe_unicode
 )
 from vcs.utils.lazy import LazyProperty
-from vcs.utils.ordered_dict import OrderedDict
 from vcs.utils.paths import abspath
 from vcs.utils.hgcompat import (
     ui, nullid, match, patch, diffopts, clone, get_contact, pull,
