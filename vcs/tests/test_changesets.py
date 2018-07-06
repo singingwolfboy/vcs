@@ -1,5 +1,3 @@
-from __future__ import with_statement
-
 import datetime
 import vcs
 from vcs.tests.base import BackendTestMixin

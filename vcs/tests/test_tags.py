@@ -1,5 +1,3 @@
-from __future__ import with_statement
-
 from vcs.tests.base import BackendTestMixin
 from vcs.tests.conf import SCM_TESTS
 from vcs.exceptions import TagAlreadyExistError

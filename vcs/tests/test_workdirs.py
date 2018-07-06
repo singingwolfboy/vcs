@@ -1,5 +1,3 @@
-from __future__ import with_statement
-
 import datetime
 from vcs.nodes import FileNode
 from vcs.utils.compat import unittest

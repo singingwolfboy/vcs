@@ -1,8 +1,6 @@
 """
 Tests so called "in memory changesets" commit API of vcs.
 """
-from __future__ import with_statement
-
 import time
 import datetime
 

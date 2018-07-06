@@ -1,5 +1,3 @@
-from __future__ import with_statement
-
 from vcs.utils.filesize import filesizeformat
 from vcs.utils.compat import unittest
 
