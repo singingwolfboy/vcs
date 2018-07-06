@@ -1,6 +1,5 @@
-from __future__ import with_statement
-
 import os
+import six
 from vcs.backends.hg import MercurialRepository, MercurialChangeset
 from vcs.exceptions import RepositoryError, VCSError, NodeDoesNotExistError
 from vcs.nodes import NodeKind, NodeState
@@ -8,6 +7,7 @@ from vcs.tests.conf import TEST_HG_REPO, TEST_HG_REPO_CLONE, TEST_HG_REPO_PULL
 from vcs.utils.compat import unittest
 
 
+@unittest.skipUnless(six.PY2, "Mercurial is only compatible with Python 2")
 class MercurialRepositoryTest(unittest.TestCase):
 
     def __check_for_existing_repo(self):
