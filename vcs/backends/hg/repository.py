@@ -15,7 +15,8 @@ import datetime
 from collections import OrderedDict
 import six
 from six.moves.urllib.request import (
-    HTTPPasswordMgrWithDefaultRealm, build_opener, Request, pathname2url
+    HTTPPasswordMgrWithDefaultRealm, build_opener, Request, pathname2url,
+    HTTPBasicAuthHandler, HTTPDigestAuthHandler
 )
 from six.moves.urllib.parse import urlencode
 from six.moves.urllib.error import URLError
@@ -33,8 +34,7 @@ from vcs.utils.lazy import LazyProperty
 from vcs.utils.paths import abspath
 from vcs.utils.hgcompat import (
     ui, nullid, match, patch, diffopts, clone, get_contact, pull,
-    localrepository, RepoLookupError, Abort, RepoError, hex, scmutil, hg_url,
-    httpbasicauthhandler, httpdigestauthhandler
+    localrepository, RepoLookupError, Abort, RepoError, hex, scmutil, hg_url
 )
 
 from .changeset import MercurialChangeset
@@ -306,8 +306,8 @@ class MercurialRepository(BaseRepository):
             passmgr = HTTPPasswordMgrWithDefaultRealm()
             passmgr.add_password(*authinfo)
 
-            handlers.extend((httpbasicauthhandler(passmgr),
-                             httpdigestauthhandler(passmgr)))
+            handlers.extend((HTTPBasicAuthHandler(passmgr),
+                             HTTPDigestAuthHandler(passmgr)))
 
         o = build_opener(*handlers)
         o.addheaders = [('Content-Type', 'application/mercurial-0.1'),

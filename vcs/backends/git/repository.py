@@ -5,7 +5,10 @@ import time
 import posixpath
 import string
 import six
-from six.moves.urllib.request import HTTPPasswordMgrWithDefaultRealm, build_opener, Request
+from six.moves.urllib.request import (
+    HTTPPasswordMgrWithDefaultRealm, build_opener, Request,
+    HTTPBasicAuthHandler, HTTPDigestAuthHandler
+)
 from six.moves.urllib.parse import urlencode
 from six.moves.urllib.error import URLError
 from collections import OrderedDict
@@ -25,9 +28,7 @@ from vcs.utils import safe_unicode, makedate, date_fromtimestamp
 from vcs.utils.lazy import LazyProperty
 from vcs.utils.paths import abspath, get_user_home
 
-from vcs.utils.hgcompat import (
-    hg_url, httpbasicauthhandler, httpdigestauthhandler
-)
+from vcs.utils.hgcompat import hg_url
 
 from .changeset import GitChangeset
 from .config import ConfigFile
@@ -35,7 +36,6 @@ from .inmemory import GitInMemoryChangeset
 from .workdir import GitWorkdir
 
 SHA_PATTERN = re.compile(r'^[[0-9a-fA-F]{12}|[0-9a-fA-F]{40}]$')
-
 
 class GitRepository(BaseRepository):
     """
@@ -164,8 +164,8 @@ class GitRepository(BaseRepository):
             passmgr = HTTPPasswordMgrWithDefaultRealm()
             passmgr.add_password(*authinfo)
 
-            handlers.extend((httpbasicauthhandler(passmgr),
-                             httpdigestauthhandler(passmgr)))
+            handlers.extend((HTTPBasicAuthHandler(passmgr),
+                             HTTPDigestAuthHandler(passmgr)))
 
         o = build_opener(*handlers)
         o.addheaders = [('User-Agent', 'git/1.7.8.0')]  # fake some git
