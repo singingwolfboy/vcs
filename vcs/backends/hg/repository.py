@@ -11,11 +11,14 @@
 
 import os
 import time
-import urllib
-import urllib2
 import datetime
 from collections import OrderedDict
 import six
+from six.moves.urllib.request import (
+    HTTPPasswordMgrWithDefaultRealm, build_opener, Request, pathname2url
+)
+from six.moves.urllib.parse import urlencode
+from six.moves.urllib.error import URLError
 
 from vcs.backends.base import BaseRepository, CollectionGenerator
 
@@ -284,7 +287,7 @@ class MercurialRepository(BaseRepository):
         auth request that can cause whole API to hang when used from python
         or other external calls.
 
-        On failures it'll raise urllib2.HTTPError, return code 200 if url
+        On failures it'll raise urllib.error.HTTPError, return code 200 if url
         is valid or True if it's a local path
         """
 
@@ -300,28 +303,28 @@ class MercurialRepository(BaseRepository):
 
         if authinfo:
             #create a password manager
-            passmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+            passmgr = HTTPPasswordMgrWithDefaultRealm()
             passmgr.add_password(*authinfo)
 
             handlers.extend((httpbasicauthhandler(passmgr),
                              httpdigestauthhandler(passmgr)))
 
-        o = urllib2.build_opener(*handlers)
+        o = build_opener(*handlers)
         o.addheaders = [('Content-Type', 'application/mercurial-0.1'),
                         ('Accept', 'application/mercurial-0.1')]
 
         q = {"cmd": 'between'}
         q.update({'pairs': "%s-%s" % ('0' * 40, '0' * 40)})
-        qs = '?%s' % urllib.urlencode(q)
+        qs = '?%s' % urlencode(q)
         cu = "%s%s" % (test_uri, qs)
-        req = urllib2.Request(cu, None, {})
+        req = Request(cu, None, {})
 
         try:
             resp = o.open(req)
             return resp.code == 200
         except Exception as e:
             # means it cannot be cloned
-            raise urllib2.URLError("[%s] %s" % (url, e))
+            raise URLError("[%s] %s" % (url, e))
 
     def _get_repo(self, create, src_url=None, update_after_clone=False):
         """
@@ -343,7 +346,7 @@ class MercurialRepository(BaseRepository):
                 try:
                     MercurialRepository._check_url(url)
                     clone(self.baseui, url, self.path, **opts)
-#                except urllib2.URLError:
+#                except URLError:
 #                    raise Abort("Got HTTP 404 error")
                 except Exception:
                     raise
@@ -437,7 +440,7 @@ class MercurialRepository(BaseRepository):
         """
         url = str(url)
         if url != 'default' and not '://' in url:
-            url = "file:" + urllib.pathname2url(url)
+            url = "file:" + pathname2url(url)
         return url
 
     def get_hook_location(self):

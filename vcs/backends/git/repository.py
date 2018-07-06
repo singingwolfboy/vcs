@@ -2,11 +2,12 @@
 import os
 import re
 import time
-import urllib
-import urllib2
 import posixpath
 import string
 import six
+from six.moves.urllib.request import HTTPPasswordMgrWithDefaultRealm, build_opener, Request
+from six.moves.urllib.parse import urlencode
+from six.moves.urllib.error import URLError
 from collections import OrderedDict
 
 from dulwich.objects import Tag
@@ -144,7 +145,7 @@ class GitRepository(BaseRepository):
         auth request that can cause whole API to hang when used from python
         or other external calls.
 
-        On failures it'll raise urllib2.HTTPError
+        On failures it'll raise urllib.error.HTTPError
         """
 
         # check first if it's not an local url
@@ -160,26 +161,26 @@ class GitRepository(BaseRepository):
             test_uri = test_uri.rstrip('/') + '/info/refs'
         if authinfo:
             #create a password manager
-            passmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+            passmgr = HTTPPasswordMgrWithDefaultRealm()
             passmgr.add_password(*authinfo)
 
             handlers.extend((httpbasicauthhandler(passmgr),
                              httpdigestauthhandler(passmgr)))
 
-        o = urllib2.build_opener(*handlers)
+        o = build_opener(*handlers)
         o.addheaders = [('User-Agent', 'git/1.7.8.0')]  # fake some git
 
         q = {"service": 'git-upload-pack'}
-        qs = '?%s' % urllib.urlencode(q)
+        qs = '?%s' % urlencode(q)
         cu = "%s%s" % (test_uri, qs)
-        req = urllib2.Request(cu, None, {})
+        req = Request(cu, None, {})
 
         try:
             resp = o.open(req)
             return resp.code == 200
         except Exception as e:
             # means it cannot be cloned
-            raise urllib2.URLError("[%s] %s" % (url, e))
+            raise URLError("[%s] %s" % (url, e))
 
     def _get_repo(self, create, src_url=None, update_after_clone=False,
                   bare=False):
