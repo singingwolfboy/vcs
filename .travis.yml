@@ -1,11 +1,10 @@
 language: python
 python:
- - 2.7
+ - 3.6
 
 env:
-  - TOX_ENV=py25
-  - TOX_ENV=py26
   - TOX_ENV=py27
+  - TOX_ENV=py37
 
 install:
     pip install tox
@@ -14,9 +13,3 @@ script: tox -e $TOX_ENV
 
 # flakes show some unused imports and start imports, so we don't want to have red build till they are fixed
 after_script: tox -e flakes
-
-notifications:
-    email:
-        - lukaszbalcerzak@gmail.com
-        - marcinkuz@gmail.com
-    irc: "irc.freenode.org#vcs"
